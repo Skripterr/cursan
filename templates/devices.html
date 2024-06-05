@@ -34,6 +34,7 @@
             <td>{{ device.area }}</td>
             <td>
                 <a class="text-primary" href="{{ url_for('edit', device_id=device.id) }}">Edit</a>
+                <a class="text-primary" href="{{ url_for('report', device_id=device.id) }}">Report</a>
                 <a class="text-danger" href="{{ url_for('delete', device_id=device.id) }}">Delete</a>
             </td>
         </tr>

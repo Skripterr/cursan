@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash, abort
+from flask import Flask, render_template, redirect, url_for, flash, abort, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
@@ -6,6 +6,7 @@ from wtforms import StringField, IntegerField, PasswordField, SubmitField, Boole
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from flask_bootstrap import Bootstrap
 import datetime
+from reportlab.pdfgen import canvas
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret-key'
@@ -157,6 +158,30 @@ def delete(device_id):
     db.session.commit()
     flash('Device has been deleted successfully!')
     return redirect(url_for('devices'))
+
+@app.route('/report/<int:device_id>', methods=['GET', 'POST'])
+@login_required
+def report(device_id):
+    device = Device.query.get_or_404(device_id)
+    c = canvas.Canvas(f'device_№{device.id}_report.pdf')
+    c.setFont('Helvetica-Bold', 20)
+    c.drawString(100, 750, 'Device Report')
+    c.setFont('Helvetica', 12)
+    c.drawString(50, 700, f'Identificator: {device.id}')
+    c.drawString(50, 680, f'Name: {device.name}')
+    c.drawString(50, 660, f'Date of measurement: {device.date}')
+    c.drawString(50, 640, f'Measurement: {device.measurement}')
+    c.drawString(50, 620, f'Runtime: {device.runtime}')
+    c.drawString(50, 600, f'Cost of measurement: {device.cost}')
+    c.drawString(50, 580, f'Measurement inspector: {device.inspector}')
+    c.drawString(50, 560, f'Device area: {device.area}')
+
+    c.save()
+
+    with open(f'device_№{device.id}_report.pdf', 'rb') as pdf_file:
+        response = Response(pdf_file, mimetype='application/pdf')
+        response.headers.set('Content-Disposition', 'inline', filename='device_№{device.id}_report.pdf')
+        return response
 
 if __name__ == '__main__':
     app.run(debug=True)
