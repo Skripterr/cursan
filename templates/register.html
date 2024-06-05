@@ -1,0 +1,30 @@
+{% extends 'authbase.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<h1>Register</h1>
+<form method="POST">
+    {{ form.csrf_token }}
+    <div class="form-group">
+        {{ form.username.label }}
+        {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else "")) }}
+    </div>
+    <div class="form-group">
+        {{ form.email.label }}
+        {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+    </div>
+    <div class="form-group">
+        {{ form.password.label }}
+        {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else "")) }}
+    </div>
+    <div class="form-group">
+        {{ form.confirm_password.label }}
+        {{ form.confirm_password(class="form-control" + (" is-invalid" if form.confirm_password.errors else "")) }}
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+
+{% endblock %}

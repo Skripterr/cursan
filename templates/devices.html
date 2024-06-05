@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Devices{% endblock %}
+
+{% block content %}
+<h1>Devices</h1>
+<a href="/add" class="btn btn-primary my-3">Add new device</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Serial id</th>
+            <th>Last date</th>
+            <th>Measurement</th>
+            <th>Runtime</th>
+            <th>Maintenance cost</th>
+            <th>Inspector</th>
+            <th>Operating area</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for device in devices %}
+        <tr>
+            <td>{{ device.id }}</td>
+            <td>{{ device.name }}</td>
+            <td>{{ device.serial }}</td>
+            <td>{{ device.date }}</td>
+            <td>{{ device.measurement }}</td>
+            <td>{{ device.runtime }}</td>
+            <td>{{ device.cost }}</td>
+            <td>{{ device.inspector }}</td>
+            <td>{{ device.area }}</td>
+            <td>
+                <a class="text-primary" href="{{ url_for('edit', device_id=device.id) }}">Edit</a>
+                <a class="text-danger" href="{{ url_for('delete', device_id=device.id) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

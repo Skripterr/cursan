@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Device{% endblock %}
+
+{% block content %}
+<h1>Delete Device</h1>
+<p>Are you sure you want to delete the device "{{ device.name }}"?</p>
+<form method="POST" action="">
+    {{ form.csrf_token }}
+    {{ form.submit() }}
+</form>
+<p><a href="{{ url_for('devices') }}">Back to devices</a></p>
+{% endblock %}

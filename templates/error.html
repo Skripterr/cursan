@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Error {{ error_code }}{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1>{{ error_code }} Error</h1>
+    <p>An error occurred while processing your request.</p>
+</div>
+{% endblock %}
